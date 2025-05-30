@@ -1,0 +1,6 @@
+ID=1
+WORKDIR=
+CONTAINER=
+GIT=
+NETWORK=testnet
+CHAIN=testnet
