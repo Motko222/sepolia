@@ -8,8 +8,8 @@ source $path/env
 
 version=$()
 docker_status=$(docker inspect $CONTAINER | jq -r .[].State.Status)
-local_height=$(( 16#$(curl -sX POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}' $LOCAL_RPC | jq -r .result.currentBlock | sed 's/0x//g') ))
-network_height=$(( 16#$(curl -s POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["latest", false],"id":1}' $PUBLIC_RPC | jq -r .result.number | sed 's/0x//') ))
+local_height=$(( 16#$(curl -sX POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}' $URL1 | jq -r .result.currentBlock | sed 's/0x//g') ))
+network_height=$(( 16#$(curl -s POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["latest", false],"id":1}' $URL5 | jq -r .result.number | sed 's/0x//') ))
 diff=$(( $network_height - $local_height ))
 
 status="ok"
@@ -31,6 +31,7 @@ cat >$json << EOF
         "chain":"$CHAIN",
         "status":"$status",
         "message":"$message",
+        "url":"$URL3 $URL4",
         "version":"$version"
   }
 }
