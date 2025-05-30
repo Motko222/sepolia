@@ -14,7 +14,7 @@ diff=$(( $network_height - $local_height ))
 
 status="ok"
 [ $diff -gt 5 ] && status="warning" && message="syncing $local_height/$network_height (behind $diff )"
-[ "$docker_status" = "running" ] && status="error" message="docker not running ($docker_status)"
+[ "$docker_status" != "running" ] && status="error" message="docker not running ($docker_status)"
 
 cat >$json << EOF
 {
