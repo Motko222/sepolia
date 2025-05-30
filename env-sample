@@ -1,6 +1,7 @@
 ID=1
 WORKDIR=
-CONTAINER=
-GIT=
+CONTAINER=geth
 NETWORK=testnet
-CHAIN=testnet
+CHAIN=sepolia
+LOCAL_URL=http://localhost:8645
+PUBLIC_URL=https://rpc.sepolia.ethpandaops.io
