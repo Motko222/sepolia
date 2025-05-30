@@ -14,11 +14,6 @@ network_height=$(( 16#$(curl -sX POST -H "Content-Type: application/json" --data
 status=warning && message="syncing $local_height/$network_height (behind $(( $network_height - local_height )) )
 [ $docker_status -ne "running" ] && status="error" message="docker not running ($docker_status)"
 
-case $docker_status in
-  running) status="ok" ;;
-  *) status="error"; message="docker not running ($docker_status)" ;;
-esac
-
 cat >$json << EOF
 {
   "updated":"$(date --utc +%FT%TZ)",
@@ -38,4 +33,4 @@ cat >$json << EOF
   }
 }
 EOF
-cat $json
+cat $json | jq
