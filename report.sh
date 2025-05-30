@@ -8,6 +8,8 @@ source $path/env
 
 version=$()
 docker_status=$(docker inspect $CONTAINER | jq -r .[].State.Status)
+local_height=$(( 16#$(curl -sX POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}' $LOCAL_URL | jq -r .result.currentBlock | sed 's/0x//g') ))
+network_height=$(( 16#$(curl -sX POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}' $PUBLIC_URL | jq -r .result.currentBlock | sed 's/0x//g') ))
 
 case $docker_status in
   running) status="ok" ;;
