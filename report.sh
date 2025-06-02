@@ -21,7 +21,7 @@ then
 fi
 
 status="ok"
-[ $diff -gt 0 ] && status="warning" && message="geth syncing $local_height/$network_height (behind $diff )"
+[ "$geth_syncing" != "false" ] && status="warning" && message="geth syncing $local_height/$network_height (behind $diff )"
 [ "$prysm_syncing" != "false" ] && status="warning" && message="prysm syncing"
 [ "$docker_status" != "running" ] && status="error" message="docker not running ($docker_status)"
 
