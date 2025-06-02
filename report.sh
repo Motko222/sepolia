@@ -8,10 +8,10 @@ source $path/env
 
 version=$()
 docker_status=$(docker inspect $CONTAINER | jq -r .[].State.Status)
-geth_synced=$(curl -sX POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}' $URL1 | grep result | grep -c false )
+geth_syncing=$(curl -sX POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}' $URL1 | jq -r .result ) 
 prysm_syncing=$(curl -s $URL2/eth/v1/node/syncing | jq -r .data.is_syncing)
 
-if [ $geth_synced -eq 0 ]
+if [ -z $geth_synced ]
 then 
  local_height=$(( 16#$(curl -sX POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}' $URL1 | jq -r .result.currentBlock | sed 's/0x//g') ))
  network_height=$(( 16#$(curl -s POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["latest", false],"id":1}' $URL5 | jq -r .result.number | sed 's/0x//') ))
