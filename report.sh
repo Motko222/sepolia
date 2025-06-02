@@ -13,15 +13,15 @@ prysm_syncing=$(curl -s $URL2/eth/v1/node/syncing | jq -r .data.is_syncing)
 #echo geth_syncing $geth_syncing
 #echo prysm_syncing $prysm_syncing
 
+status="ok"
 if [ "$geth_syncing" != "false" ]
 then 
  local_height=$(( 16#$(curl -sX POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}' $URL1 | jq -r .result.currentBlock | sed 's/0x//g') ))
  network_height=$(( 16#$(curl -s POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["latest", false],"id":1}' $URL5 | jq -r .result.number | sed 's/0x//') ))
  diff=$(( $network_height - $local_height ))
+ status="warning" && message="geth syncing $local_height/$network_height (behind $diff )"
 fi
 
-status="ok"
-[ "$geth_syncing" != "false" ] && status="warning" && message="geth syncing $local_height/$network_height (behind $diff )"
 [ "$prysm_syncing" != "false" ] && status="warning" && message="prysm syncing"
 [ "$docker_status" != "running" ] && status="error" message="docker not running ($docker_status)"
 
