@@ -10,6 +10,7 @@ version=$()
 docker_status=$(docker inspect $CONTAINER | jq -r .[].State.Status)
 geth_syncing=$(curl -sX POST -H "Content-Type: application/json" --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}' $URL1 | jq -r .result ) 
 prysm_syncing=$(curl -s $URL2/eth/v1/node/syncing | jq -r .data.is_syncing)
+prysm_distance=$(curl -s $URL2/eth/v1/node/syncing | jq -r .data.sync_distance)
 #echo geth_syncing $geth_syncing
 #echo prysm_syncing $prysm_syncing
 
@@ -42,7 +43,7 @@ cat >$json << EOF
         "message":"$message",
         "url":"$URL3 $URL4",
         "version":"$version",
-        "m1":"geth behind $diff, prysm syncing $prysm_syncing"
+        "m1":"geth behind $diff, prysm behind prysm_distance"
   }
 }
 EOF
