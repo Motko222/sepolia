@@ -41,7 +41,8 @@ cat >$json << EOF
         "status":"$status",
         "message":"$message",
         "url":"$URL3 $URL4",
-        "version":"$version"
+        "version":"$version",
+        "m1":"geth=$geth_syncing pryzm=$prysm_syncing"
   }
 }
 EOF
