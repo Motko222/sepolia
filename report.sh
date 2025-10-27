@@ -43,7 +43,7 @@ cat >$json << EOF
         "message":"$message",
         "url":"$URL3 $URL4",
         "version":"$version",
-        "m1":"geth behind $diff, prysm behind prysm_distance"
+        "m1":"geth behind $diff, prysm behind $prysm_distance"
   }
 }
 EOF
